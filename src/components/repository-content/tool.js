@@ -1,7 +1,7 @@
 import { GITHUB_COM } from '@/constants';
 
 /**
- * 转换仓库 README href 或 src 的资源地址
+ * 轉換倉庫 README href 或 src 的資源地址
  * @param {*} str
  * @param {*} param1
  * @returns

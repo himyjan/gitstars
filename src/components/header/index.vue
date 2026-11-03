@@ -10,7 +10,7 @@
       <a
         :href="`${userinfo.html_url}?tab=repositories`"
         rel="noopener noreferrer"
-        class="ml-3 text-xl font-bold text-[#948aec] hover:underline"
+        class="ml-3 text-xl font-bold text-[#948aec] dark:text-[#948aec] hover:underline"
       >
         <h2>
           {{ t('userTitle', { username: userinfo.name }) }}
@@ -24,7 +24,7 @@
     <span class="cursor-pointer" @click="handleChangeLang">
       <svg-icon name="translate" class="text-xl" />
       <span>· </span>
-      <span class="text-sm">{{ userStore.lang.startsWith('zh') ? '中' : 'En' }}</span>
+      <span class="text-sm text-gray-600 dark:text-gray-400">{{ userStore.lang.startsWith('zh') ? '中' : 'En' }}</span>
     </span>
 
     <span class="mt-0.5 h-4 w-px bg-gray-400 dark:bg-gray-600"></span>
@@ -38,7 +38,7 @@
         :name="userStore.theme === 'light' ? 'moon' : 'sun'"
         class="text-xl"
       />
-      <span class="text-sm">{{ userStore.theme === 'light' ? t('darkMode') : t('lightMode') }}</span>
+      <span class="text-sm text-gray-600 dark:text-gray-400">{{ userStore.theme === 'light' ? t('darkMode') : t('lightMode') }}</span>
     </span>
 
     <a :href="BRAND_URI">

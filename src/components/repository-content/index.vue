@@ -30,9 +30,7 @@
         v-if="!selectedRepository"
         class="flex items-center justify-center text-sm text-gray-400 dark:text-gray-500"
       >
-        <svg-icon name="hand-left" class="mr-1 text-base" />{{
-          t('readmeTip')
-        }}
+        <svg-icon name="hand-left" class="mr-1 text-base" />{{ t('readmeTip') }}
       </p>
       <svg-icon v-show="loading" name="loading" class="animate-spin text-2xl" />
     </div>
@@ -48,7 +46,7 @@
 </template>
 
 <script setup>
-import { watchEffect, ref, nextTick, watch } from 'vue';
+import { watchEffect, ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRepositoryStore } from '@/store/repository';
 import { useUserStore } from '@/store/user';
@@ -56,8 +54,6 @@ import { useI18n } from 'vue-i18n';
 import SvgIcon from '@/components/svg-icon.vue';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
-import lightCss from 'github-markdown-css/github-markdown-light.css?raw';
-import darkCss from 'github-markdown-css/github-markdown-dark.css?raw';
 
 const { t } = useI18n();
 
@@ -67,32 +63,11 @@ const readme = ref('');
 const refReadme = ref(null);
 const loading = ref(false);
 
-let markdownStyleEl = null;
-
-function setMarkdownTheme(theme) {
-  if (markdownStyleEl) {
-    markdownStyleEl.remove();
-    markdownStyleEl = null;
-  }
-  const cssText = theme === 'dark' ? darkCss : lightCss;
-  const styleEl = document.createElement('style');
-  styleEl.textContent = cssText;
-  document.head.appendChild(styleEl);
-  markdownStyleEl = styleEl;
-}
-
-watch(
-  () => userStore.theme,
-  setMarkdownTheme,
-  { immediate: true },
-);
-
 watchEffect(async () => {
   if (!selectedRepository.value) return;
   readme.value = '';
   loading.value = true;
 
-  // 暂存 repository id
   const { id } = selectedRepository.value;
 
   const { content, html_url } = await getRepositoryReadme({
@@ -103,36 +78,10 @@ watchEffect(async () => {
     decodeURIComponent(escape(atob(content))),
   );
 
-  /**
-   * 接口异步响应需要时间
-   * 此时 selectedRepository 可能已变更
-   */
   if (id !== selectedRepository.value.id) return;
   loading.value = false;
 
-  /**
-   * https://github.com/coder/code-server/blob/main/docs/README.md
-   * =>
-   * https://github.com/coder/code-server/blob/main/docs/
-   */
   const urlPrefix = html_url.slice(0, -9);
-
-  /**
-   * 1. <img src="https://github.com/path/to/a.png" />
-   * 2. <img src="./path/to/a.png" />
-   * 3. <img src="path/to/a.png" />
-   * 4. <img src=".filename/path/to/a.png" />
-   * 5. <img src="/path/to/a.png" />
-   */
-
-  /**
-   * 1. <a href="https://github.com/path/to/a.png" />
-   * 2. <a href="./path/to/a.png" />
-   * 3. <a href="path/to/a.png" />
-   * 4. <a href=".filename/path/to/a.png" />
-   * 5. <a href="/path/to/a.png" />
-   * 6. <a href="#id-to-content" />
-   */
 
   readme.value = result
     .replace(/<[^>]+href="([^"]+)(?=")/g, (match, p1) => {
@@ -155,14 +104,50 @@ const toRepositoryHref = (repository) =>
   `https://github.com/${repository.owner.login}/${repository.name}`;
 </script>
 
+<style src="github-markdown-css/github-markdown.css"></style>
+
 <style>
 .markdown-body {
   font-size: 14px;
   background-color: var(--bg-card);
+  color: var(--text-main);
 }
 
 .dark .markdown-body {
-  background-color: var(--bg-card);
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+
+.dark .markdown-body a {
+  color: #58a6ff !important;
+}
+
+.dark .markdown-body code {
+  background-color: #161b22 !important;
+  color: #f0f6fc !important;
+}
+
+.dark .markdown-body pre {
+  background-color: #0d1117 !important;
+  color: #c9d1d9 !important;
+}
+
+.dark .markdown-body h1,
+.dark .markdown-body h2,
+.dark .markdown-body h3,
+.dark .markdown-body h4,
+.dark .markdown-body h5,
+.dark .markdown-body h6 {
+  color: #f0f6fc !important;
+}
+
+.dark .markdown-body blockquote {
+  border-left-color: #30363d !important;
+  color: #8b949e !important;
+}
+
+.dark .markdown-body hr {
+  border-color: #30363d !important;
 }
 
 .markdown-body img {

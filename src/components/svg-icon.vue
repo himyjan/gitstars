@@ -1,9 +1,8 @@
 <template>
   <svg
     v-html="svgContent"
-    class="svg-icon"
+    class="svg-icon fill-current stroke-current"
     :class="`svg-icon__${name}`"
-    style="fill: currentColor; stroke: currentColor"
   />
 </template>
 
@@ -28,17 +27,3 @@ const svgContent = computed(() => {
   return key ? svgModules[key].default : '';
 });
 </script>
-
-<style>
-.svg-icon,
-.svg-icon path,
-.svg-icon * {
-  fill: currentColor !important;
-  stroke: currentColor !important;
-}
-
-.svg-icon {
-  width: 1em;
-  height: 1em;
-}
-</style>

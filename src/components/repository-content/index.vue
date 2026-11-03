@@ -54,6 +54,8 @@ import { useI18n } from 'vue-i18n';
 import SvgIcon from '@/components/svg-icon.vue';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
+import lightCss from 'github-markdown-css/github-markdown-light.css?raw';
+import darkCss from 'github-markdown-css/github-markdown-dark.css?raw';
 
 const { t } = useI18n();
 
@@ -62,6 +64,24 @@ const { selectedRepository } = storeToRefs(useRepositoryStore());
 const readme = ref('');
 const refReadme = ref(null);
 const loading = ref(false);
+
+let markdownStyleEl = null;
+
+function setMarkdownTheme(theme) {
+  if (markdownStyleEl) {
+    markdownStyleEl.remove();
+    markdownStyleEl = null;
+  }
+  const cssText = theme === 'dark' ? darkCss : lightCss;
+  const styleEl = document.createElement('style');
+  styleEl.textContent = cssText;
+  document.head.appendChild(styleEl);
+  markdownStyleEl = styleEl;
+}
+
+watchEffect(() => {
+  setMarkdownTheme(userStore.theme);
+});
 
 watchEffect(async () => {
   if (!selectedRepository.value) return;
@@ -104,50 +124,9 @@ const toRepositoryHref = (repository) =>
   `https://github.com/${repository.owner.login}/${repository.name}`;
 </script>
 
-<style src="github-markdown-css/github-markdown.css"></style>
-
 <style>
 .markdown-body {
   font-size: 14px;
-  background-color: var(--bg-card);
-  color: var(--text-main);
-}
-
-.dark .markdown-body {
-  background-color: var(--bg-card) !important;
-  color: var(--text-main) !important;
-}
-
-.dark .markdown-body a {
-  color: #58a6ff !important;
-}
-
-.dark .markdown-body code {
-  background-color: #161b22 !important;
-  color: #f0f6fc !important;
-}
-
-.dark .markdown-body pre {
-  background-color: #0d1117 !important;
-  color: #c9d1d9 !important;
-}
-
-.dark .markdown-body h1,
-.dark .markdown-body h2,
-.dark .markdown-body h3,
-.dark .markdown-body h4,
-.dark .markdown-body h5,
-.dark .markdown-body h6 {
-  color: #f0f6fc !important;
-}
-
-.dark .markdown-body blockquote {
-  border-left-color: #30363d !important;
-  color: #8b949e !important;
-}
-
-.dark .markdown-body hr {
-  border-color: #30363d !important;
 }
 
 .markdown-body img {

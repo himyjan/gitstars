@@ -1,4 +1,6 @@
 <template>
+  <link rel="stylesheet" href="/markdown-light.css" :disabled="userStore.theme !== 'light'">
+  <link rel="stylesheet" href="/markdown-dark.css" :disabled="userStore.theme !== 'dark'">
   <div
     class="relative flex-auto bg-white dark:bg-[#020617]"
     style="width: calc(100% - 24rem); color: var(--text-main)"
@@ -54,9 +56,6 @@ import { useI18n } from 'vue-i18n';
 import SvgIcon from '@/components/svg-icon.vue';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
-import lightCss from 'github-markdown-css/github-markdown-light.css?raw';
-import darkCss from 'github-markdown-css/github-markdown-dark.css?raw';
-
 const { t } = useI18n();
 
 const userStore = useUserStore();
@@ -64,24 +63,6 @@ const { selectedRepository } = storeToRefs(useRepositoryStore());
 const readme = ref('');
 const refReadme = ref(null);
 const loading = ref(false);
-
-let markdownStyleEl = null;
-
-function setMarkdownTheme(theme) {
-  if (markdownStyleEl) {
-    markdownStyleEl.remove();
-    markdownStyleEl = null;
-  }
-  const cssText = theme === 'dark' ? darkCss : lightCss;
-  const styleEl = document.createElement('style');
-  styleEl.textContent = cssText;
-  document.head.appendChild(styleEl);
-  markdownStyleEl = styleEl;
-}
-
-watchEffect(() => {
-  setMarkdownTheme(userStore.theme);
-});
 
 watchEffect(async () => {
   if (!selectedRepository.value) return;

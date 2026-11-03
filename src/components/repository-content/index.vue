@@ -56,6 +56,8 @@ import { useI18n } from 'vue-i18n';
 import SvgIcon from '@/components/svg-icon.vue';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
+import lightCss from 'github-markdown-css/github-markdown-light.css?raw';
+import darkCss from 'github-markdown-css/github-markdown-dark.css?raw';
 
 const { t } = useI18n();
 
@@ -65,21 +67,18 @@ const readme = ref('');
 const refReadme = ref(null);
 const loading = ref(false);
 
-let markdownThemeLink = null;
+let markdownStyleEl = null;
 
 function setMarkdownTheme(theme) {
-  if (markdownThemeLink) {
-    markdownThemeLink.remove();
-    markdownThemeLink = null;
+  if (markdownStyleEl) {
+    markdownStyleEl.remove();
+    markdownStyleEl = null;
   }
-  const cssFile = theme === 'dark'
-    ? 'github-markdown-css/github-markdown-dark.css'
-    : 'github-markdown-css/github-markdown-light.css';
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = cssFile;
-  document.head.appendChild(link);
-  markdownThemeLink = link;
+  const cssText = theme === 'dark' ? darkCss : lightCss;
+  const styleEl = document.createElement('style');
+  styleEl.textContent = cssText;
+  document.head.appendChild(styleEl);
+  markdownStyleEl = styleEl;
 }
 
 watch(

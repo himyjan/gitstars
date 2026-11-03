@@ -29,8 +29,9 @@ const { locale } = useI18n();
 userStore.applyTheme(localStorage.getItem(THEME_KEY) || userStore.theme);
 
 userStore.$subscribe((mutation) => {
-  const { lang } = mutation.payload;
-  if (mutation.type === 'patch object' && lang) {
+  if (mutation.type !== 'patch object') return;
+  const { lang } = mutation.payload || {};
+  if (lang) {
     locale.value = lang;
     localStorage.setItem(LANG_KEY, lang);
   }

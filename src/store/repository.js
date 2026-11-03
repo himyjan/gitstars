@@ -170,7 +170,11 @@ export const useRepositoryStore = defineStore('repository', {
       this.all = [];
       nextTick(() => {
         this.all = repos;
-        localStorage.setItem(STARRED_REPOS, JSON.stringify(this.all));
+        try {
+          localStorage.setItem(STARRED_REPOS, JSON.stringify(this.all));
+        } catch (e) {
+          // localStorage quota exceeded; skip caching
+        }
         this.loading = false;
       });
     },

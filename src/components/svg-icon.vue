@@ -29,11 +29,16 @@ const svgContent = computed(() => {
 });
 </script>
 
-<style scoped>
+<style>
+.svg-icon,
+.svg-icon path,
+.svg-icon * {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
 .svg-icon {
   width: 1em;
   height: 1em;
-  fill: currentColor;
-  stroke: currentColor;
 }
 </style>

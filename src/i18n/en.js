@@ -20,4 +20,6 @@ export default {
     },
     updating: 'Updating repository',
   },
+  darkMode: 'Dark Mode',
+  lightMode: 'Light Mode',
 };

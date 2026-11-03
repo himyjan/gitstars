@@ -1,8 +1,11 @@
 <template>
-  <div class="relative flex-auto bg-white" style="width: calc(100% - 24rem)">
+  <div
+    class="relative flex-auto bg-white dark:bg-[#020617]"
+    style="width: calc(100% - 24rem); color: var(--text-main)"
+  >
     <header
       v-if="selectedRepository"
-      class="broder-b-gray-300 flex h-9 items-center border-b border-solid px-4"
+      class="flex h-9 items-center border-b border-solid border-b-gray-300 px-4 dark:border-b-slate-700 dark:bg-[#020617]"
     >
       <a
         :href="toRepositoryHref(selectedRepository)"
@@ -25,7 +28,7 @@
       <p class="mb-2 text-3xl font-bold">README.md</p>
       <p
         v-if="!selectedRepository"
-        class="flex items-center justify-center text-sm"
+        class="flex items-center justify-center text-sm text-gray-400 dark:text-gray-500"
       >
         <svg-icon name="hand-left" class="mr-1 text-base" />{{
           $t('readmeTip')
@@ -45,16 +48,40 @@
 </template>
 
 <script setup>
-import { watchEffect, ref, nextTick } from 'vue';
+import { watchEffect, ref, nextTick, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRepositoryStore } from '@/store/repository';
+import { useUserStore } from '@/store/user';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
 
+const userStore = useUserStore();
 const { selectedRepository } = storeToRefs(useRepositoryStore());
 const readme = ref('');
 const refReadme = ref(null);
 const loading = ref(false);
+
+let markdownThemeLink = null;
+
+function setMarkdownTheme(theme) {
+  if (markdownThemeLink) {
+    markdownThemeLink.remove();
+    markdownThemeLink = null;
+  }
+  if (theme === 'dark') {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'github-markdown-css/github-markdown-dark.css';
+    document.head.appendChild(link);
+    markdownThemeLink = link;
+  }
+}
+
+watch(
+  () => userStore.theme,
+  setMarkdownTheme,
+  { immediate: true },
+);
 
 watchEffect(async () => {
   if (!selectedRepository.value) return;

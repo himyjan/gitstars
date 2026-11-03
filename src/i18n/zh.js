@@ -20,4 +20,6 @@ export default {
     },
     updating: '存储库更新中',
   },
+  darkMode: '深色模式',
+  lightMode: '浅色模式',
 };

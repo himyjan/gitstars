@@ -20,10 +20,13 @@ import RepositoryContent from '@/components/repository-content/index.vue';
 import Unauth from '@/components/unauth.vue';
 import { useUserStore } from '@/store/user';
 import { useI18n } from 'vue-i18n';
-import { LANG_KEY } from '@/constants';
+import { LANG_KEY, THEME_KEY } from '@/constants';
 
 const userStore = useUserStore();
 const { locale } = useI18n();
+
+// restore persisted theme (applied before mount to avoid a flash)
+userStore.applyTheme(localStorage.getItem(THEME_KEY) || userStore.theme);
 
 userStore.$subscribe((mutation) => {
   const { lang } = mutation.payload;

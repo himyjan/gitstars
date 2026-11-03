@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative w-96 flex-none border-r border-solid border-r-gray-300 bg-white"
+    class="relative w-96 flex-none border-r border-solid border-r-gray-300 bg-white px-4 dark:border-r-slate-700 dark:bg-slate-900"
   >
     <RepositorySearch />
 
@@ -9,13 +9,13 @@
       :items="repositoryStore.filteredRepositories"
       :min-item-size="100"
       key-field="id"
-      class="scrollbar-thumb:bg-slate-300 overflow-y-auto overflow-x-hidden"
+      class="scrollbar-thumb:bg-slate-300 dark:scrollbar-thumb:bg-slate-600 overflow-y-auto overflow-x-hidden"
       style="height: calc(100% - 2.25rem)"
       @click="handleClickRepository"
     >
       <template v-slot="{ item, index, active }">
         <DynamicScrollerItem
-          class="cursor-pointer border-b border-solid border-b-gray-300 p-4"
+          class="cursor-pointer border-b border-solid border-b-gray-300 p-4 dark:border-b-slate-700"
           :item="item"
           :active="active"
           :size-dependencies="[
@@ -38,7 +38,7 @@
     <svg-icon
       v-show="tagStore.tagSrc === 'star' && repositoryStore.all.length === 0"
       name="loading"
-      class="absolute left-1/2 top-1/3 -ml-3 animate-spin text-2xl text-gray-300"
+      class="absolute left-1/2 top-1/3 -ml-3 animate-spin text-2xl text-gray-300 dark:text-gray-600"
     />
   </div>
 </template>
@@ -79,6 +79,11 @@ repositoryStore.resolveRepositories();
 .selected {
   background-color: #f7f7f7;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark .selected) {
+  background-color: #1e293b;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 :deep(.vue-recycle-scroller__item-wrapper) {

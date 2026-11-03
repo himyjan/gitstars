@@ -29,7 +29,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useTagStore } from '@/store/tag';
-import { debounce } from 'lodash';
+import { debounce } from 'es-toolkit/compat';
 
 const emit = defineEmits(['input']);
 

@@ -15,8 +15,12 @@ const certificateDirectory = path.resolve(
 const toConfig = () => {
   const config = {
     plugins: [
+      vue({
+        features: {
+          vapor: true,
+        },
+      }),
       tailwindcss(),
-      vue(),
       createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/svg-icons')],
         symbolId: 'icon-[dir]-[name]',

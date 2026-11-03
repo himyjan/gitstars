@@ -72,13 +72,14 @@ function setMarkdownTheme(theme) {
     markdownThemeLink.remove();
     markdownThemeLink = null;
   }
-  if (theme === 'dark') {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'github-markdown-css/github-markdown-dark.css';
-    document.head.appendChild(link);
-    markdownThemeLink = link;
-  }
+  const cssFile = theme === 'dark'
+    ? 'github-markdown-css/github-markdown-dark.css'
+    : 'github-markdown-css/github-markdown-light.css';
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = cssFile;
+  document.head.appendChild(link);
+  markdownThemeLink = link;
 }
 
 watch(
@@ -155,11 +156,14 @@ const toRepositoryHref = (repository) =>
   `https://github.com/${repository.owner.login}/${repository.name}`;
 </script>
 
-<style src="github-markdown-css/github-markdown-light.css"></style>
-
 <style>
 .markdown-body {
   font-size: 14px;
+  background-color: var(--bg-card);
+}
+
+.dark .markdown-body {
+  background-color: var(--bg-card);
 }
 
 .markdown-body img {

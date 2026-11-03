@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, 'src'),
-        'vue': 'vue/dist/vue.runtime-with-vapor.esm-browser.js',
+        'vue': 'vue/dist/vue.runtime-with-vapor.esm-browser.prod.js',
       },
     },
   };

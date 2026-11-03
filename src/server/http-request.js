@@ -1,28 +1,68 @@
-import { createFetch } from 'ofetch';
+import { $fetch } from 'ofetch';
 import { useUserStore } from '@/store/user';
 
-// httpRequestGitstars
+const GITHUB_API = 'https://api.github.com';
 
-export const httpRequestGitstars = createFetch();
+export async function getToken(code) {
+  return await $fetch('/api/oauth/access_token', {
+    method: 'POST',
+    body: {
+      code,
+      client_id: import.meta.env.VITE_GITSTARS_CLIENT_ID,
+    },
+  });
+}
 
-// httpRequestGithub
+export async function getUserInfo() {
+  return await $fetch(`${GITHUB_API}/user`, {
+    headers: {
+      Authorization: `Bearer ${useUserStore().token}`,
+    },
+  });
+}
 
-export const httpRequestGithub = createFetch({
-  baseURL: 'https://api.github.com',
-  onRequest({ options }) {
-    const userStore = useUserStore();
-    if (userStore.token) {
-      options.headers = {
-        ...options.headers,
-        Authorization: `Bearer ${userStore.token}`,
-      };
-    }
-  },
-  onResponseError({ response }) {
-    // access_token 失效
-    if (response.status === 401) {
-      localStorage.clear();
-      location.reload();
-    }
-  },
-});
+export async function getStarredRepositories(params) {
+  return await $fetch(`${GITHUB_API}/user/starred`, {
+    query: params,
+    headers: {
+      Authorization: `Bearer ${useUserStore().token}`,
+    },
+  });
+}
+
+export async function getRepositoryReadme(params) {
+  return await $fetch(
+    `${GITHUB_API}/repos/${params.owner}/${params.name}/readme`,
+    {
+      headers: {
+        Authorization: `Bearer ${useUserStore().token}`,
+      },
+    },
+  );
+}
+
+export async function getReadmeByMarkdown(content) {
+  return await $fetch(`${GITHUB_API}/markdown`, {
+    method: 'POST',
+    body: { text: content },
+    headers: {
+      Authorization: `Bearer ${useUserStore().token}`,
+    },
+  });
+}
+
+export async function getGithubRankingLanguageList() {
+  const res = await fetch(
+    'https://raw.githubusercontent.com/cfour-hi/github-ranking/main/languages.json',
+  );
+  const list = await res.json();
+  return list;
+}
+
+export async function getGithubRankingLanguageMap() {
+  const res = await fetch(
+    `https://raw.githubusercontent.com/cfour-hi/github-ranking/main/ranking.json`,
+  );
+  const map = await res.json();
+  return map;
+}

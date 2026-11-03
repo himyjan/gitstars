@@ -3,14 +3,12 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 
-const envLocal = loadEnv(process.env.NODE_ENV, process.cwd(), '');
-const isDev = process.env.NODE_ENV === 'development';
-const certificateDirectory = path.resolve(
-  process.cwd(),
-  envLocal.GITSTARS_CERT_DIR || '.certs',
-);
-
 export default defineConfig(({ mode }) => {
+  const envLocal = loadEnv(process.env.NODE_ENV, process.cwd(), '');
+  const certificateDirectory = path.resolve(
+    process.cwd(),
+    envLocal.GITSTARS_CERT_DIR || '.certs',
+  );
   const env = loadEnv(mode, '.', '');
   const isDev = mode === 'development';
   const config = {

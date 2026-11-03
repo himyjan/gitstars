@@ -6,7 +6,7 @@ import { useTagStore } from '@/store/tag';
 import { useRankingStore } from '@/store/ranking';
 
 const PAGE_SIZE = 100;
-const PARALLEL_NUM = 8;
+const PARALLEL_NUM = 32;
 
 /**
  * 通过 HTTP 获取 repositories 并更新

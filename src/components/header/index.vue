@@ -22,7 +22,7 @@
     <span class="flex-auto"></span>
 
     <span class="cursor-pointer" @click="handleChangeLang">
-      <svg-icon name="translate" class="text-xl" />
+      <svg-icon name="translate" class="text-xl text-gray-600 dark:text-gray-400" />
       <span>· </span>
       <span class="text-sm text-gray-600 dark:text-gray-400">{{ userStore.lang.startsWith('zh') ? '中' : 'En' }}</span>
     </span>
@@ -36,13 +36,13 @@
     >
       <svg-icon
         :name="userStore.theme === 'light' ? 'moon' : 'sun'"
-        class="text-xl"
+        class="text-xl text-gray-600 dark:text-gray-400"
       />
       <span class="text-sm text-gray-600 dark:text-gray-400">{{ userStore.theme === 'light' ? t('darkMode') : t('lightMode') }}</span>
     </span>
 
     <a :href="BRAND_URI">
-      <svg-icon name="github" class="text-xl hover:opacity-50" />
+      <svg-icon name="github" class="text-xl text-gray-600 dark:text-gray-400 hover:opacity-50" />
     </a>
   </header>
 </template>

@@ -6,7 +6,7 @@ import { useTagStore } from '@/store/tag';
 import { useRankingStore } from '@/store/ranking';
 
 const PAGE_SIZE = 100;
-const PARALLEL_NUM = 2;
+const PARALLEL_NUM = 8;
 
 /**
  * 通过 HTTP 获取 repositories 并更新
@@ -158,28 +158,21 @@ export const useRepositoryStore = defineStore('repository', {
      */
     async resolveRepositories() {
       this.loading = true;
-      let localRepositories = localStorage.getItem(STARRED_REPOS);
+      const cached = localStorage.getItem(STARRED_REPOS);
 
-      if (localRepositories) {
-        localRepositories = JSON.parse(localRepositories);
-        this.all = localRepositories;
+      if (cached) {
+        this.all = JSON.parse(cached);
+        this.loading = false;
+        return;
       }
 
-      nextTick(async () => {
-        // 开发环境默认不通过 HTTP 更新 repositories
-        // if (!import.meta.env.DEV || this.all.length === 0) {
-        const repos = await rsolveRepositoriesByHTTP();
-        // 先清空，避免新老数据 DIFF 过程中更新 DOM 导致页面崩溃
-        this.all = [];
-
-        nextTick(() => {
-          this.all = repos;
-          localStorage.setItem(STARRED_REPOS, JSON.stringify(this.all));
-        });
-        // }
+      const repos = await rsolveRepositoriesByHTTP();
+      this.all = [];
+      nextTick(() => {
+        this.all = repos;
+        localStorage.setItem(STARRED_REPOS, JSON.stringify(this.all));
+        this.loading = false;
       });
-
-      this.loading = false;
     },
   },
 });

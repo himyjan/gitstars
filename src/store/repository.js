@@ -173,7 +173,7 @@ export const useRepositoryStore = defineStore('repository', {
         try {
           localStorage.setItem(STARRED_REPOS, JSON.stringify(this.all));
         } catch (e) {
-          // localStorage quota exceeded; skip caching
+          // localStorage quota exceeded — skip caching
         }
         this.loading = false;
       });

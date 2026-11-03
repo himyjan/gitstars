@@ -1,5 +1,10 @@
 <template>
-  <svg v-html="svgContent" class="svg-icon" :class="`svg-icon__${name}`" />
+  <svg
+    v-html="svgContent"
+    class="svg-icon"
+    :class="`svg-icon__${name}`"
+    style="fill: currentColor; stroke: currentColor"
+  />
 </template>
 
 <script setup>
@@ -29,5 +34,6 @@ const svgContent = computed(() => {
   width: 1em;
   height: 1em;
   fill: currentColor;
+  stroke: currentColor;
 }
 </style>

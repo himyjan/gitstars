@@ -1,9 +1,8 @@
 <template>
-  <svg
+  <div
     class="svg-icon fill-current stroke-current text-gray-600 dark:text-gray-400"
     :class="`svg-icon__${name}`"
-    :view-box="viewBox"
-    v-html="innerContent"
+    v-html="svgContent"
   />
 </template>
 
@@ -27,27 +26,25 @@ const svgContent = computed(() => {
   );
   return key ? svgModules[key].default : '';
 });
-
-const viewBox = computed(() => {
-  const key = Object.keys(svgModules).find((k) =>
-    k.endsWith(`/${props.name}.svg?raw`),
-  );
-  if (!key) return undefined;
-  const match = svgModules[key].default.match(/viewBox="([^"]+)"/);
-  return match ? match[1] : undefined;
-});
-
-const innerContent = computed(() => {
-  const key = Object.keys(svgModules).find((k) =>
-    k.endsWith(`/${props.name}.svg?raw`),
-  );
-  if (!key) return '';
-  return svgModules[key]
-    .default
-    // Strip opening <svg ...> tag
-    .replace(/^<svg[^>]*>/, '')
-    // Strip closing </svg> tag
-    .replace(/<\/svg>$/, '')
-    .trim();
-});
 </script>
+
+<style>
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.svg-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.svg-icon svg * {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+</style>

@@ -1,33 +1,28 @@
-import axios from 'axios';
+import { createFetch } from 'ofetch';
 import { useUserStore } from '@/store/user';
 
 // httpRequestGitstars
 
-export const httpRequestGitstars = axios.create();
-
-httpRequestGitstars.interceptors.response.use((res) => res.data);
+export const httpRequestGitstars = createFetch();
 
 // httpRequestGithub
 
-export const httpRequestGithub = axios.create({
+export const httpRequestGithub = createFetch({
   baseURL: 'https://api.github.com',
-});
-
-httpRequestGithub.interceptors.request.use((config) => {
-  const userStore = useUserStore();
-  config.headers.Authorization = `Bearer ${userStore.token}`;
-  return config;
-});
-
-httpRequestGithub.interceptors.response.use(
-  (res) => res.data,
-  (err) => {
+  onRequest({ options }) {
+    const userStore = useUserStore();
+    if (userStore.token) {
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${userStore.token}`,
+      };
+    }
+  },
+  onResponseError({ response }) {
     // access_token 失效
-    if (err.response.status === 401) {
+    if (response.status === 401) {
       localStorage.clear();
       location.reload();
     }
-
-    return Promise.reject(err);
   },
-);
+});

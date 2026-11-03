@@ -62,7 +62,7 @@ async function initApp() {
   const userStore = useUserStore();
   const lang = localStorage.getItem(LANG_KEY);
 
-  if (lang) userStore.$patch({ lang });
+  if (lang) userStore.$patch({ lang: lang === 'zh' ? 'zh-hans' : lang });
   app.use(createI18nByLocale(userStore.lang));
 
   const token = localStorage.getItem(TOKEN_KEY);

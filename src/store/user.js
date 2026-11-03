@@ -7,7 +7,7 @@ export const useUserStore = defineStore('userinfo', {
     token: '',
     userinfo: {},
     htmlFontSize: 16,
-    lang: 'zh',
+    lang: 'zh-hans',
     theme: 'light',
   }),
 

@@ -24,7 +24,7 @@
     <span class="cursor-pointer" @click="handleChangeLang">
       <svg-icon name="translate" class="text-xl" />
       <span>· </span>
-      <span class="text-sm">{{ userStore.lang === 'zh' ? '中' : 'En' }}</span>
+      <span class="text-sm">{{ userStore.lang.startsWith('zh') ? '中' : 'En' }}</span>
     </span>
 
     <span class="mt-0.5 h-4 w-px bg-gray-400 dark:bg-gray-600"></span>
@@ -55,7 +55,7 @@ const userStore = useUserStore();
 const { userinfo } = userStore;
 
 const handleChangeLang = () => {
-  const newLang = userStore.lang === 'zh' ? 'en' : 'zh';
-  userStore.$patch({ lang: newLang });
+  const isChinese = userStore.lang.startsWith('zh');
+  userStore.$patch({ lang: isChinese ? 'en' : 'zh-hans' });
 };
 </script>

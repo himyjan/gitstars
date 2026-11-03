@@ -13,7 +13,7 @@
         class="ml-3 text-xl font-bold text-[#948aec] hover:underline"
       >
         <h2>
-          {{ $t('userTitle', { username: userinfo.name }) }}
+          {{ t('userTitle', { username: userinfo.name }) }}
           <svg-icon name="share" class="text-sm" />
         </h2>
       </a>
@@ -32,13 +32,13 @@
     <span
       class="cursor-pointer items-center gap-2 sm:flex"
       @click="userStore.toggleTheme"
-      :title="userStore.theme === 'light' ? $t('darkMode') : $t('lightMode')"
+      :title="userStore.theme === 'light' ? t('darkMode') : t('lightMode')"
     >
       <svg-icon
         :name="userStore.theme === 'light' ? 'moon' : 'sun'"
         class="text-xl"
       />
-      <span class="text-sm">{{ userStore.theme === 'light' ? $t('darkMode') : $t('lightMode') }}</span>
+      <span class="text-sm">{{ userStore.theme === 'light' ? t('darkMode') : t('lightMode') }}</span>
     </span>
 
     <a :href="BRAND_URI">
@@ -50,6 +50,10 @@
 <script setup>
 import { useUserStore } from '@/store/user';
 import { BRAND_URI } from '@/constants';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 const { userinfo } = userStore;

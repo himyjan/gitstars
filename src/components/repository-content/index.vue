@@ -31,7 +31,7 @@
         class="flex items-center justify-center text-sm text-gray-400 dark:text-gray-500"
       >
         <svg-icon name="hand-left" class="mr-1 text-base" />{{
-          $t('readmeTip')
+          t('readmeTip')
         }}
       </p>
       <svg-icon v-show="loading" name="loading" class="animate-spin text-2xl" />
@@ -52,8 +52,12 @@ import { watchEffect, ref, nextTick, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRepositoryStore } from '@/store/repository';
 import { useUserStore } from '@/store/user';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { getRepositoryReadme, getReadmeByMarkdown } from '@/server/github';
 import { toRepostoryReadmeHref } from './tool';
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 const { selectedRepository } = storeToRefs(useRepositoryStore());

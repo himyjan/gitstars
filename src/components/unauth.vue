@@ -17,7 +17,7 @@
           target="_self"
         >
           <svg-icon name="github" class="mr-2 text-xl" />
-          <span>{{ $t('loginTip') }}</span>
+          <span>{{ t('loginTip') }}</span>
         </a>
       </div>
     </div>
@@ -26,6 +26,10 @@
 
 <script setup>
 import { BRAND } from '@/constants';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
+
+const { t } = useI18n();
 
 const authURL = `https://github.com/login/oauth/authorize?client_id=${
   import.meta.env.VITE_GITSTARS_CLIENT_ID

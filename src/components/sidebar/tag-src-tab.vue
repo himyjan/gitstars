@@ -12,7 +12,7 @@
       class="h-full w-1/3 flex-auto cursor-pointer border-r border-solid border-gray-500 text-center capitalize leading-8 last:border-none"
       @click="handleClickTab(tab)"
     >
-      {{ $t(`category.${tab}`) }}
+      {{ t(`category.${tab}`) }}
       <svg-icon
         v-show="toTabLoading(tab)"
         name="loading"
@@ -23,8 +23,12 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useTagStore } from '@/store/tag';
 import { useRankingStore } from '@/store/ranking';
+
+const { t } = useI18n();
 
 const tagStore = useTagStore();
 const rankingStore = useRankingStore();

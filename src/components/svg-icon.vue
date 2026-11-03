@@ -1,14 +1,6 @@
 <template>
-  <svg aria-hidden="true" class="svg-icon" :class="[`svg-icon__${name}`]">
-    <use :xlink:href="symbolId" />
-  </svg>
+  <svg v-html="svgContent" class="svg-icon" :class="`svg-icon__${name}`" />
 </template>
-
-<script>
-export default {
-  name: 'SvgIcon',
-};
-</script>
 
 <script setup>
 import { computed } from 'vue';
@@ -20,7 +12,16 @@ const props = defineProps({
   },
 });
 
-const symbolId = computed(() => `#icon-${props.name}`);
+const svgModules = import.meta.glob('../svg-icons/*.svg?raw', {
+  eager: true,
+});
+
+const svgContent = computed(() => {
+  const key = Object.keys(svgModules).find((k) =>
+    k.endsWith(`/${props.name}.svg?raw`),
+  );
+  return key ? svgModules[key].default : '';
+});
 </script>
 
 <style scoped>

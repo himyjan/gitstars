@@ -2,7 +2,7 @@
   <div class="relative flex h-0 flex-auto flex-col">
     <TagItem
       :tag="{
-        label: $t('all'),
+        label: t('all'),
         icon: 'all-application',
         count: repositoryStore.all.length,
       }"
@@ -15,7 +15,7 @@
       <TagSearch @input="handleInputSearch">
         <template #suffix>
           <div
-            :aria-label="$t(`sort.${tagStore.sortType}`)"
+            :aria-label="t(`sort.${tagStore.sortType}`)"
             role="tooltip"
             data-microtip-position="top"
             class="ml-2 flex-none cursor-pointer"
@@ -44,6 +44,8 @@
 
 <script setup>
 import { watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useTagStore } from '@/store/tag';
 import { useRepositoryStore } from '@/store/repository';
 import TagItem from '../tag-item.vue';
@@ -51,6 +53,8 @@ import TagSearch from '../tag-search.vue';
 import TagListTopic from './tag-list-topic.vue';
 import TagListLanguage from './tag-list-language.vue';
 import TagTypeNav from './tag-type-nav.vue';
+
+const { t } = useI18n();
 
 const tagStore = useTagStore();
 const repositoryStore = useRepositoryStore();

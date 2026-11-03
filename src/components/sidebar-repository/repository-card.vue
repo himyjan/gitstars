@@ -68,6 +68,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useTagStore } from '@/store/tag';
 
 defineProps({

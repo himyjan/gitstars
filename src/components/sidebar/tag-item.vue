@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import SvgIcon from '@/components/svg-icon.vue';
+
 defineProps({
   tag: {
     type: Object,

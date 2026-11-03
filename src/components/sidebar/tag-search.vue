@@ -4,7 +4,7 @@
   >
     <span class="flex-none">
       <svg-icon name="search" class="" />
-      <span class="mx-2">{{ $t('search') }}</span>
+      <span class="mx-2">{{ t('search') }}</span>
     </span>
 
     <span class="relative flex-auto">
@@ -28,8 +28,12 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useTagStore } from '@/store/tag';
 import { debounce } from 'es-toolkit/compat';
+
+const { t } = useI18n();
 
 const emit = defineEmits(['input']);
 

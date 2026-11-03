@@ -2,7 +2,7 @@
   <div class="flex h-0 flex-auto flex-col">
     <TagItem
       :tag="{
-        label: $t('all'),
+        label: t('all'),
         icon: 'all-application',
       }"
       :class="{ selected: !rankingStore.selectedLanguage }"
@@ -28,9 +28,13 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useRankingStore } from '@/store/ranking';
 import TagItem from './tag-item.vue';
 import TagSearch from './tag-search.vue';
+
+const { t } = useI18n();
 
 const rankingStore = useRankingStore();
 rankingStore.resolveLanguageList();

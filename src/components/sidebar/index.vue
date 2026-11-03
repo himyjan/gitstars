@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import SvgIcon from '@/components/svg-icon.vue';
 import TagSrcTab from './tag-src-tab.vue';
 import TagSrcTabSelf from './tag-src-self/index.vue';
 import TagSrcGithub from './tag-src-github.vue';

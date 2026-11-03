@@ -1,4 +1,3 @@
-import 'virtual:svg-icons-register';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import { createApp, vaporInteropPlugin } from 'vue';
 import { createPinia } from 'pinia';
@@ -6,7 +5,6 @@ import App from './App.vue';
 import { TOKEN_KEY, LANG_KEY } from '@/constants';
 import { getToken } from '@/server/gitstars';
 import { useUserStore } from '@/store/user';
-import SvgIcon from '@/components/svg-icon.vue';
 import VueVirtualScroller from 'vue-virtual-scroller';
 import { throttle } from 'es-toolkit/compat';
 import { createI18nByLocale } from './i18n';
@@ -54,11 +52,9 @@ async function resolveToken() {
 
 async function initApp() {
   const app = createApp(App);
+  app.use(vaporInteropPlugin);
   app.use(createPinia());
   app.use(VueVirtualScroller);
-  app.use(vaporInteropPlugin); // Allows VDOM and Vapor to coexist
-  app.component(SvgIcon.name, SvgIcon);
-
   const userStore = useUserStore();
   const lang = localStorage.getItem(LANG_KEY);
 

@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import SvgIcon from '@/components/svg-icon.vue';
 import RepositoryCard from './repository-card.vue';
 import RepositorySearch from './repository-search.vue';
 import { useRepositoryStore } from '@/store/repository';

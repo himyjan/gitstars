@@ -4,7 +4,7 @@
       <svg-icon name="search" class="absolute left-2 top-2 text-gray-400" />
 
       <input
-        :placeholder="$t('repo.filterTip', { div: '|' })"
+        :placeholder="t('repo.filterTip', { div: '|' })"
         ref="refInput"
         type="text"
         class="h-7 w-full flex-auto rounded-full bg-white px-6 outline-none"
@@ -21,7 +21,7 @@
 
     <div
       v-show="tagStore.tagSrc === 'star'"
-      :aria-label="$t(`repo.sort.${repositoryStore.sortType}`)"
+      :aria-label="t(`repo.sort.${repositoryStore.sortType}`)"
       role="tooltip"
       data-microtip-position="top"
       class="ml-2.5 cursor-pointer text-sm text-gray-400"
@@ -38,7 +38,7 @@
         repositoryStore.all.length !== 0 &&
         repositoryStore.loading
       "
-      :aria-label="$t('repo.updating')"
+      :aria-label="t('repo.updating')"
       role="tooltip"
       data-microtip-position="top"
       class="ml-2.5 text-sm"
@@ -50,9 +50,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import SvgIcon from '@/components/svg-icon.vue';
 import { useRepositoryStore } from '@/store/repository';
 import { useTagStore } from '@/store/tag';
 import { debounce } from 'es-toolkit/compat';
+
+const { t } = useI18n();
 
 const tagStore = useTagStore();
 const repositoryStore = useRepositoryStore();
